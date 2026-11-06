@@ -1,0 +1,82 @@
+{
+  "title": "AI Agent의 미래",
+  "slides": [
+    {
+      "type": "cover",
+      "brand": "AI Agent Report",
+      "title": "AI Agent의\n미래",
+      "subtitle": "대화하는 AI에서, 일하는 AI로",
+      "icon": "FaRobot",
+      "satellites": ["FaBrain", "FaTools", "FaUsers"],
+      "notes": "오프닝: 챗봇에서 스스로 일하는 에이전트로 넘어가는 흐름을 살펴봅니다."
+    },
+    {
+      "type": "halfPanel",
+      "side": "left",
+      "panelIcon": "FaRobot",
+      "panelText": "목표를 받아\n끝까지 수행하는 AI",
+      "title": "챗봇에서 에이전트로",
+      "items": [
+        { "title": "챗봇", "desc": "질문에 한 번 답하는 대화형 AI", "icon": "FaCommentDots" },
+        { "title": "코파일럿", "desc": "사람 곁에서 초안·제안을 돕는 보조자", "icon": "FaHandsHelping" },
+        { "title": "에이전트", "desc": "목표를 받아 계획부터 실행까지", "icon": "FaRobot" },
+        { "title": "에이전트 팀", "desc": "역할이 나뉜 여러 에이전트가 협업", "icon": "FaProjectDiagram" }
+      ],
+      "footnote": "자율성과 책임 범위가 단계마다 넓어집니다.",
+      "notes": "에이전트는 목표를 받아 스스로 계획하고 도구를 써서 끝까지 수행합니다."
+    },
+    {
+      "type": "section",
+      "title": "에이전트를 움직이는 4가지 핵심 기술",
+      "subtitle": "LLM이 두뇌라면, 에이전트는 손과 기억까지 갖춘 존재입니다.",
+      "items": [
+        { "title": "추론·계획", "desc": "복잡한 목표를 단계로 나누고 점검", "icon": "FaBrain" },
+        { "title": "도구 사용", "desc": "API·코드·브라우저로 실제 행동 수행", "icon": "FaTools" },
+        { "title": "메모리", "desc": "맥락과 경험을 저장해 장기 작업에 활용", "icon": "FaDatabase" },
+        { "title": "멀티 에이전트", "desc": "역할 분담과 협업으로 큰 일을 병렬 처리", "icon": "FaUsers" }
+      ],
+      "notes": "추론·계획, 도구 사용, 메모리, 멀티 에이전트가 에이전트의 4대 구성요소입니다."
+    },
+    {
+      "type": "textList",
+      "title": "일하는 방식이 바뀝니다",
+      "items": [
+        { "title": "소프트웨어 개발", "desc": "이슈 분석부터 코드 수정, 테스트까지 자동 수행", "icon": "FaCode" },
+        { "title": "고객 지원", "desc": "문의를 이해하고 시스템을 조회해 직접 해결", "icon": "FaHeadset" },
+        { "title": "리서치·분석", "desc": "자료 수집·비교·요약을 한 번에 처리", "icon": "FaSearch" },
+        { "title": "업무 자동화", "desc": "여러 앱을 넘나드는 반복 업무를 위임", "icon": "FaTasks" }
+      ],
+      "card": { "icon": "FaBullseye", "title": "목표는 사람이,\n실행은 에이전트가", "desc": "작업의 단위가 '질문'에서 '목표'로 이동합니다." },
+      "notes": "개발, 고객지원, 리서치, 업무 자동화에서 목표 위임형 업무 방식이 확산됩니다."
+    },
+    {
+      "type": "stats",
+      "title": "2030년 시장 전망 (억 달러)",
+      "chart": { "type": "bar", "name": "2030년 전망", "labels": ["MarketsandMarkets", "Grand View", "BCC Research"], "values": [526.2, 503.1, 483], "showValue": true, "format": "0.0" },
+      "points": [
+        { "title": "연평균 43–46% 성장", "desc": "기관마다 '에이전트' 정의가 달라 직접 비교는 어렵습니다." },
+        { "title": "확산은 빠르고", "desc": "실험은 다수, 확대 적용은 아직 소수입니다." }
+      ],
+      "stats": [
+        { "value": "88%", "label": "조직 단위 AI 도입률" },
+        { "value": "62%", "label": "에이전트 실험 중" },
+        { "value": "23%", "label": "에이전트 확대 적용" },
+        { "value": "40%+", "label": "2027년까지 취소 전망" }
+      ],
+      "source": "Stanford HAI AI Index 2026 · McKinsey State of AI 2025 · Gartner 2025-06 · Grand View/M&M/BCC",
+      "notes": "시장은 빠르게 크지만, 확대 적용은 23%에 그치고 Gartner는 40% 이상 취소를 전망합니다."
+    },
+    {
+      "type": "closing",
+      "message": "넘어야 할 과제를 풀 때\n에이전트는 동료가 됩니다.",
+      "footer": "AI Agent의 미래",
+      "heading2": "남은 과제 3가지",
+      "items": [
+        { "title": "신뢰성·안전", "desc": "오류를 줄이고 중요한 행동은 사람이 확인", "icon": "FaShieldAlt" },
+        { "title": "보안·권한 통제", "desc": "최소 권한과 감사 로그로 범위 관리", "icon": "FaLock" },
+        { "title": "협업·평가", "desc": "성과를 측정하고 사람과의 역할을 설계", "icon": "FaHandshake" }
+      ],
+      "notes": "마무리: 신뢰성, 보안, 협업 설계가 핵심 과제입니다. 감사합니다."
+    }
+  ]
+}

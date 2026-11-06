@@ -1,0 +1,20 @@
+{
+  "name": "Red Pitch Deck",
+  "colors": {
+    "RED": "F40009",
+    "RED_DEEP": "B30000",
+    "RED_TINT": "FDECEC",
+    "WHITE": "FFFFFF",
+    "BLACK": "111111",
+    "GRAY_TEXT": "5F5F5F",
+    "GRAY_LIGHT": "F2F2F2",
+    "GRAY_LINE": "D9D9D9"
+  },
+  "fonts": {
+    "ko": "Malgun Gothic",
+    "en": "Arial",
+    "allowed": ["Malgun Gothic", "맑은 고딕", "Arial", "Calibri"]
+  },
+  "minFontPt": 11,
+  "captionFontPt": 10
+}

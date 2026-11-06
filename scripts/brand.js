@@ -21,13 +21,17 @@ const ReactDOMServer = req("react-dom/server");
 const sharp = req("sharp");
 const fa = req("react-icons/fa");
 
-// ---------------------------------------------------------------- tokens
-const C = {
-  RED: "F40009", RED_DEEP: "B30000", RED_TINT: "FDECEC",
-  WHITE: "FFFFFF", BLACK: "111111",
-  GRAY_TEXT: "5F5F5F", GRAY_LIGHT: "F2F2F2", GRAY_LINE: "D9D9D9",
-};
-const FONT_KO = "Malgun Gothic", FONT_EN = "Arial";
+// ---------------------------------------------------------------- tokens (theme.json)
+// 색·글꼴은 스킬 루트의 theme.json에서 읽는다. 다른 브랜드는 theme.json만 바꾸거나
+// 환경변수 MY_PPTX_THEME=<경로> 로 다른 테마 파일을 지정한다.
+const fs = require("fs");
+const THEME_PATH = process.env.MY_PPTX_THEME || path.join(__dirname, "..", "theme.json");
+const THEME = JSON.parse(fs.readFileSync(THEME_PATH, "utf8"));
+const C = THEME.colors; // 키 이름(RED, RED_DEEP, ...)은 레이아웃이 역할로 사용하므로 유지한다
+for (const k of ["RED", "RED_DEEP", "RED_TINT", "WHITE", "BLACK", "GRAY_TEXT", "GRAY_LIGHT", "GRAY_LINE"]) {
+  if (!/^[0-9A-Fa-f]{6}$/.test(C[k] || "")) throw new Error(`theme.json colors.${k} 가 6자리 hex가 아님: ${C[k]}`);
+}
+const FONT_KO = THEME.fonts.ko, FONT_EN = THEME.fonts.en;
 const W = 10, H = 5.625, M = 0.5;
 
 // ---------------------------------------------------------------- 한글 줄바꿈
@@ -321,4 +325,4 @@ function createDeck({ title = "Presentation", author } = {}) {
   };
 }
 
-module.exports = { createDeck, wrapKo, iconData, C, FONT_KO, FONT_EN };
+module.exports = { createDeck, wrapKo, iconData, C, FONT_KO, FONT_EN, THEME };

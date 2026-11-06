@@ -1,0 +1,25 @@
+{
+  "skill_name": "my_pptx",
+  "description": "my_pptx 스킬 호출 조건 테스트. should_trigger=true는 my_pptx가 쓰여야 하는 요청, false는 쓰이면 안 되는 요청. skill-creator의 description 최적화/트리거 평가에 그대로 넣어 쓸 수 있다.",
+  "evals": [
+    { "query": "AI 에이전트 시장 동향으로 발표자료 8장 만들어줘", "should_trigger": true },
+    { "query": "투자자 IR용 피치덱을 빨간색 스타일로 pptx로 만들어줘", "should_trigger": true },
+    { "query": "이 보고서 내용을 슬라이드로 정리해줘", "should_trigger": true },
+    { "query": "다음 주 팀 회의에서 쓸 PPT 5장 부탁해", "should_trigger": true },
+    { "query": "research.md 내용으로 덱 만들어서 G 드라이브에 저장해줘", "should_trigger": true },
+    { "query": "만들어 둔 AI_Agent의_미래.pptx에서 3번 슬라이드 제목만 바꿔줘", "should_trigger": true },
+    { "query": "신제품 소개 프레젠테이션을 브랜드 가이드라인에 맞춰 만들어줘", "should_trigger": true },
+    { "query": "이 덱이 브랜드 규칙에 맞는지 검사해줘 deck.pptx", "should_trigger": true },
+    { "query": "분기 실적 데이터로 차트 들어간 PPT 만들어줘", "should_trigger": true },
+    { "query": "강의용 슬라이드 10장, 표지랑 마무리 포함해서", "should_trigger": true },
+
+    { "query": "이 엑셀 파일에서 매출 합계 구해줘", "should_trigger": false },
+    { "query": "회의록을 워드 문서로 정리해줘", "should_trigger": false },
+    { "query": "brandguideline.md 파일이 있는지 확인해줘", "should_trigger": false },
+    { "query": "PDF 두 개를 하나로 합쳐줘", "should_trigger": false },
+    { "query": "오늘 코스피 시황 브리핑해줘", "should_trigger": false },
+    { "query": "파이썬으로 웹 크롤러 만들어줘", "should_trigger": false },
+    { "query": "구글 슬라이드 공유 링크 권한을 바꿔줘", "should_trigger": false },
+    { "query": "유튜브 쇼츠 대본 만들어줘", "should_trigger": false }
+  ]
+}

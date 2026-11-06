@@ -17,14 +17,21 @@
   WARN   제목 아래 얇은 가로 선(밑줄) 의심
 종료 코드: ERROR가 있으면 1 (--strict 이면 WARN도 1)
 """
-import re
+import json
+import os
 import sys
 import zipfile
 import xml.etree.ElementTree as ET
 
-PALETTE = {"F40009", "B30000", "FDECEC", "FFFFFF", "111111", "5F5F5F", "F2F2F2", "D9D9D9"}
-RED_BG = {"F40009", "B30000"}
-FONTS = {"malgun gothic", "맑은 고딕", "arial", "calibri"}
+# 팔레트·글꼴은 스킬 루트 theme.json에서 읽는다 (MY_PPTX_THEME 환경변수로 교체 가능)
+_THEME_PATH = os.environ.get("MY_PPTX_THEME") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "theme.json")
+with open(_THEME_PATH, encoding="utf-8") as _f:
+    THEME = json.load(_f)
+PALETTE = {v.upper() for v in THEME["colors"].values()}
+RED_BG = {THEME["colors"]["RED"].upper(), THEME["colors"]["RED_DEEP"].upper()}
+FONTS = {f.lower() for f in THEME["fonts"]["allowed"]}
+MIN_PT = THEME.get("minFontPt", 11)
+CAPTION_PT = THEME.get("captionFontPt", 10)
 NS = {
     "p": "http://schemas.openxmlformats.org/presentationml/2006/main",
     "a": "http://schemas.openxmlformats.org/drawingml/2006/main",
@@ -137,9 +144,9 @@ def lint(path):
                     sz = rpr.get("sz") if rpr is not None else None
                     if sz:
                         pt = int(sz) / 100
-                        if pt < 9:
-                            errs.append(f"{tag}: {pt:g}pt 글자 — \"{snippet}\"")
-                        elif pt < 11:
+                        if pt < CAPTION_PT:
+                            errs.append(f"{tag}: {pt:g}pt 글자 (최소 캡션 {CAPTION_PT}pt) — \"{snippet}\"")
+                        elif pt < MIN_PT:
                             warns.append(f"{tag}: {pt:g}pt 글자(캡션·출처만 허용) — \"{snippet}\"")
                     if rpr is not None:
                         for fe in ("a:latin", "a:ea"):

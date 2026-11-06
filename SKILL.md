@@ -11,20 +11,39 @@ description: "빨강 주도 투자자 발표(Red Pitch Deck) 스타일의 한국
 
 | 파일 | 역할 |
 |------|------|
+| `theme.json` | 색·글꼴·최소 글자 크기. brand.js와 brand_lint.py가 함께 읽는다 |
+| `scripts/setup.ps1` | 환경 준비: 디스크 확인, Node 확보(없으면 공식 휴대용 zip + SHA256 검증), 스킬을 영문 경로로 복사, npm 설치 |
+| `scripts/build.js` | **덱 정의 JSON → .pptx** (기본 방법). 빌드 전 노트·출처·유형 검사 |
 | `scripts/brand.js` | pptxgenjs 래퍼. 레이아웃 A–F 함수, 장식 모티프, 한글 자동 줄바꿈, 넘침·노트·출처 누락 경고 |
 | `scripts/brand_lint.py` | 완성된 .pptx의 브랜드 규칙 자동 검사 (표준 라이브러리만 사용) |
 | `scripts/render.ps1` | PowerPoint COM으로 슬라이드 PNG + 한 장 미리보기(`_contact.png`) 생성 |
-| `examples/sample_deck.js` | 6유형을 모두 쓰는 예제 (출처 있는 수치만 사용) |
+| `examples/sample_deck.json` / `.js` | 6유형을 모두 쓰는 예제 (JSON판·JS판 결과 동일, 출처 있는 수치만 사용) |
+| `evals/trigger_evals.json` | 스킬 호출 조건 테스트 문장 (trigger 10 / non-trigger 8) |
 
 ## 작업 순서
 
 1. `references/brandguideline.md` 읽기.
-2. 슬라이드 계획: 1장 표지(A), 마지막 마무리(F)는 빨강. 내지는 B·C·D·E를 섞는다 (5장 이상이면 3종 이상, 흰 슬라이드 3–4장마다 E 1장).
-3. 작업 폴더 준비 (아래 "환경")에서 덱 스크립트를 작성하고 `node deck.js out.pptx`로 생성. **콘솔 경고(넘침·노트 없음·출처 없음)는 모두 해결한다.**
-4. 검사: `PYTHONUTF8=1 python scripts/brand_lint.py out.pptx` → ERROR 0 이어야 한다. (WARN은 의도된 것인지 확인. 10pt 출처 캡션 WARN은 정상)
-5. 렌더링: `powershell -ExecutionPolicy Bypass -File scripts/render.ps1 -Pptx out.pptx -OutDir png` → `_contact.png`로 전체를 보고, 의심 슬라이드는 `slideNN.png`를 크게 본다. 텍스트 넘침·어색한 줄바꿈·겹침·대비 확인.
-6. 고친 뒤 3–5 반복. 수정 후엔 반드시 다시 렌더링.
-7. 최종 파일 경로, lint/렌더링 결과, 확인하지 못한 부분을 사실대로 보고.
+2. 환경 준비: `powershell -ExecutionPolicy Bypass -File scripts/setup.ps1 [-WorkDir C:\영문경로]` → 출력되는 WORK/NODE/SKILL 경로를 이후 명령에 쓴다.
+3. 슬라이드 계획: 1장 표지(A), 마지막 마무리(F)는 빨강. 내지는 B·C·D·E를 섞는다 (5장 이상이면 3종 이상, 흰 슬라이드 3–4장마다 E 1장).
+4. `deck.json` 작성 (`examples/sample_deck.json` 형식) → WORK 폴더에서 `node <SKILL>/scripts/build.js deck.json out.pptx`.
+   - 정의 파일 ERROR(노트 없음, 데이터·수치 슬라이드에 `source` 없음, 잘못된 type)는 빌드를 막는다. 고쳐서 다시 실행한다.
+   - stats 외 슬라이드에 `source`를 넣으면 하단에 "출처:" 캡션이 붙는다.
+   - JSON으로 표현이 안 되는 자유 레이아웃만 JS로 직접 작성 (`brand.js` API, `deck.blank()`).
+   - **콘솔 경고(넘침·항목 수 초과)는 모두 해결한다.** 넘침이 있으면 build.js 종료 코드는 3.
+5. 검사: `PYTHONUTF8=1 python <SKILL>/scripts/brand_lint.py out.pptx` → ERROR 0 이어야 한다. (WARN은 의도된 것인지 확인. 10pt 출처 캡션 WARN은 정상)
+6. 렌더링: `powershell -ExecutionPolicy Bypass -File <SKILL>/scripts/render.ps1 -Pptx out.pptx -OutDir png` → `_contact.png`로 전체를 보고, 의심 슬라이드는 `slideNN.png`를 크게 본다. 텍스트 넘침·어색한 줄바꿈·겹침·대비 확인.
+7. 고친 뒤 4–6 반복. 수정 후엔 반드시 다시 렌더링.
+8. 최종 .pptx를 사용자 폴더로 복사하고, 파일 경로·lint/렌더링 결과·확인하지 못한 부분을 사실대로 보고.
+
+## 테마 바꾸기
+
+`theme.json`의 `colors` 값만 바꾸면 레이아웃은 그대로 두고 색이 바뀐다 (키 이름 RED/RED_DEEP/RED_TINT…는 "주색/진한 주색/연한 주색"이라는 **역할** 이름이라 그대로 둔다). 원본을 건드리지 않으려면 테마 파일을 따로 만들고 환경변수로 지정한다:
+
+```powershell
+$env:MY_PPTX_THEME = "C:\work\blue_theme.json"   # build.js·brand.js·brand_lint.py 모두 이 파일을 쓴다
+```
+
+테마를 바꿨다면 lint도 같은 테마로 돌려야 한다 (기본 테마로 돌리면 팔레트 밖 색으로 잡힌다).
 
 기존 .pptx를 읽거나 XML 수준으로 편집할 때는 환경에 있는 기본 `pptx` 스킬(markitdown, unzip→XML 편집→zip, validate)을 함께 쓴다.
 
@@ -63,9 +82,10 @@ await deck.save("out.pptx");          // 경고 목록 출력 + 반환
 
 ## 환경 (Windows 기준)
 
+- `scripts/setup.ps1`이 아래를 자동으로 처리한다. 수동으로 할 때만 참고.
 - 의존 패키지는 **현재 작업 폴더의 node_modules**에서 찾는다: 작업 폴더에서 `npm install pptxgenjs react react-dom react-icons sharp` 후 그 폴더에서 `node` 실행.
 - Node가 없으면 nodejs.org 휴대용 zip(`node-v22.x-win-x64.zip`)을 임시 폴더에 풀어 사용.
-- **스킬 폴더나 덱 스크립트가 한글 경로에 있으면 node가 비정상 종료할 수 있다 (실측: 0xC0000005).** 이 경우 `scripts/`와 덱 스크립트를 영문 경로(예: 임시 폴더)로 복사해서 실행한다.
+- **스킬 폴더나 덱 스크립트가 한글 경로에 있으면 node가 비정상 종료할 수 있다 (실측: 0xC0000005).** setup.ps1은 그래서 스킬을 WorkDir\skill(영문 경로)로 복사한다. deck.json 자체는 어느 경로든 괜찮다.
 - 디스크 여유가 작으면 `node_modules`·PNG는 임시 폴더에 두고 최종 .pptx와 소스만 프로젝트에 저장.
 - 한글이 든 코드는 셸 heredoc으로 넘기지 말고 파일로 저장해 실행. Python은 `PYTHONUTF8=1`.
 - LibreOffice 환경이면 render.ps1 대신 `soffice --headless --convert-to pdf` 후 이미지로 변환해 같은 방식으로 확인한다.
